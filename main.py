@@ -5,7 +5,7 @@ import asyncio
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import os
-import secret
+# import secret
 
 # DISCORD_BOT_TOKEN = secret.DISCORD_BOT_TOKEN
 DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN', '')
