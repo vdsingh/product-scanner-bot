@@ -6,8 +6,12 @@ import asyncio
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+import os
 
 # CHROMEDRIVER_PATH = './chromedriver/90.0.4430.24/chromedriver'
+DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN', '')
+
+
 CHROMEDRIVER_PATH='/app/.chromedriver/bin/chromedriver'
 
 currentTasks = {}
@@ -89,4 +93,4 @@ async def scanBestBuyURL(ctx, url, sleep):
       driver.refresh()
     await asyncio.sleep(sleep)
 
-client.run(secret.token)
+client.run(DISCORD_BOT_TOKEN)
