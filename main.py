@@ -96,10 +96,10 @@ async def scanBestBuyURL(ctx, url, sleep):
         print(f"Sold Out of {title}")
         driver.refresh()
       await asyncio.sleep(sleep)
-    except:
+    except Exception as e:
         await ctx.send(f"I had a problem scraping the website. I will remove this task.")
         currentTasks.pop(url, None)
-        print(f"removed {url} from tasks")
+        print(f"encountered an exception {e}. removed {url} from tasks")
         driver.close()
         return
 
