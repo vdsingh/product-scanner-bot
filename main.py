@@ -19,6 +19,7 @@ urlTitles = {}
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.add_argument('--no-sandbox')
 # chrome_options.binary_location = CHROMEDRIVER_PATH
 
@@ -75,8 +76,8 @@ async def tasks(ctx):
     await ctx.send(f"{urlTitles[url]} at <{url}>")
 
 async def scanBestBuyURL(ctx, url, sleep):
-  driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=chrome_options)
   await ctx.send("Please wait while I load my browser (this might take a while).")
+  driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=chrome_options)
   driver.get(url)
   title = driver.find_element_by_tag_name("h1").text
   urlTitles[url] = title
