@@ -75,7 +75,7 @@ async def tasks(ctx):
     await ctx.send(f"{urlTitles[url]} at <{url}>")
 
 async def scanBestBuyURL(ctx, url, sleep):
-  driver = webdriver.Chrome(CHROMEDRIVER_PATH)
+  driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=chrome_options)
   await ctx.send("Please wait while I load my browser (this might take a while).")
   driver.get(url)
   title = driver.find_element_by_tag_name("h1").text
@@ -99,7 +99,7 @@ async def scanBestBuyURL(ctx, url, sleep):
     except Exception as e:
         await ctx.send(f"I had a problem scraping the website. I will remove this task.")
         currentTasks.pop(url, None)
-        print(f"encountered an exception {e}. removed {url} from tasks")
+        print(f"encountered an exception. {e}. removed {url} from tasks")
         driver.close()
         return
 
