@@ -1,5 +1,3 @@
-import secret
-
 import discord
 from discord.ext import tasks, commands
 import asyncio
