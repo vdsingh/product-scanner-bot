@@ -3,3 +3,4 @@
 chromedriver/
 geckodriver.log
 secret.py
+__pycache__/
