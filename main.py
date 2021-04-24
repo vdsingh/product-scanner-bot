@@ -21,7 +21,7 @@ chrome_options.add_argument('--disable-gpu')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.binary_location = CHROMEDRIVER_PATH
 
-driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=chrome_options)
+driver = webdriver.Chrome(CHROMEDRIVER_PATH)
 
 
 
