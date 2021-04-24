@@ -5,11 +5,12 @@ import asyncio
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import os
+import secret
 
-# CHROMEDRIVER_PATH = './chromedriver/90.0.4430.24/chromedriver'
+# DISCORD_BOT_TOKEN = secret.DISCORD_BOT_TOKEN
 DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN', '')
 
-
+# CHROMEDRIVER_PATH = './chromedriver/90.0.4430.24/chromedriver'
 CHROMEDRIVER_PATH='/app/.chromedriver/bin/chromedriver'
 
 currentTasks = {}
@@ -21,9 +22,7 @@ chrome_options.add_argument('--disable-gpu')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.binary_location = CHROMEDRIVER_PATH
 
-driver = webdriver.Chrome(CHROMEDRIVER_PATH)
-
-
+# driver = webdriver.Chrome(CHROMEDRIVER_PATH)
 
 client = commands.Bot(command_prefix="!")
 
@@ -41,9 +40,12 @@ async def scan(ctx, *, args):
   await client.wait_until_ready()
   arguments = args.split(" ")
   print("starting scan.")
-  await ctx.send("Please wait while I load my browser.")
   url = arguments[0]
+  if url in currentTasks:
+    await ctx.send("There is already a task for that item.")
+    return
   if "bestbuy" in url:
+    await ctx.send("BestBuy Detected.")
     task = client.loop.create_task(scanBestBuyURL(ctx, url, 1))
     currentTasks[url] = task
   else:
@@ -73,6 +75,8 @@ async def tasks(ctx):
     await ctx.send(f"{urlTitles[url]} at <{url}>")
 
 async def scanBestBuyURL(ctx, url, sleep):
+  driver = webdriver.Chrome(CHROMEDRIVER_PATH)
+  await ctx.send("Please wait while I load my browser (this might take a while).")
   driver.get(url)
   title = driver.find_element_by_tag_name("h1").text
   urlTitles[url] = title
@@ -80,15 +84,24 @@ async def scanBestBuyURL(ctx, url, sleep):
   await asyncio.sleep(1)
 
   while True:
-    addButton = driver.find_element_by_class_name("add-to-cart-button")
-    if not "btn-disabled" in addButton.get_attribute("class").split():
-      await ctx.send(f"{title} is now in stock! I will remove it from my tasks.")
-      currentTasks.pop(url, None)
-      print(f"removed {url} from tasks")
-      return
-    else:
-      print(f"Sold Out of {title}")
-      driver.refresh()
-    await asyncio.sleep(sleep)
+    try:
+      addButton = driver.find_element_by_class_name("add-to-cart-button")
+      if not "btn-disabled" in addButton.get_attribute("class").split():
+        await ctx.send(f"\nIN STOCK: \n{title}\nI will remove it from my tasks.")
+        currentTasks.pop(url, None)
+        print(f"removed {url} from tasks")
+        driver.close()
+        return
+      else:
+        print(f"Sold Out of {title}")
+        driver.refresh()
+      await asyncio.sleep(sleep)
+    except:
+        await ctx.send(f"I had a problem scraping the website. I will remove this task.")
+        currentTasks.pop(url, None)
+        print(f"removed {url} from tasks")
+        driver.close()
+        return
+
 
 client.run(DISCORD_BOT_TOKEN)
