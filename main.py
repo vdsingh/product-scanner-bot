@@ -1,4 +1,4 @@
-from socket import timeout
+import secret
 
 import discord
 from discord.ext import tasks, commands
@@ -74,7 +74,7 @@ async def scanBestBuyURL(ctx, url, sleep):
 
 
 # client.loop.create_task(ping())
-client.run('ODM0OTQ2NTcxODg2OTE5NzEx.YIISlw.D4_Bbx4ZYG6DK8pVY_2vejNzx8g')
+client.run(secret.token)
 
 # Handle Web Scraping/Checking Code
 
