@@ -7,10 +7,20 @@ import asyncio
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
+# CHROMEDRIVER_PATH = './chromedriver/90.0.4430.24/chromedriver'
+CHROMEDRIVER_PATH='/app/.chromedriver/bin/chromedriver'
+
 currentTasks = {}
 urlTitles = {}
 
-driver = webdriver.Chrome('./chromedriver/90.0.4430.24/chromedriver')
+
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--no-sandbox')
+chrome_options.binary_location = CHROMEDRIVER_PATH
+
+driver = webdriver.Chrome(execution_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
+
 
 
 client = commands.Bot(command_prefix="!")
