@@ -31,11 +31,6 @@ client = commands.Bot(command_prefix="!")
 async def on_ready():
   print("bot is ready.")
 
-@client.event
-async def on_member_update(before, after):
-  print(f"{before} updated.")
-
-
 @client.command()
 async def scan(ctx, *, args):
   await client.wait_until_ready()
@@ -47,7 +42,7 @@ async def scan(ctx, *, args):
     return
   if "bestbuy" in url:
     await ctx.send("BestBuy Detected.")
-    task = client.loop.create_task(scanBestBuyURL(ctx, url, 1))
+    task = client.loop.create_task(scanBestBuyURL(ctx, url, 3))
     currentTasks[url] = task
   else:
     await ctx.send("I am not coded to scan that URL.")
