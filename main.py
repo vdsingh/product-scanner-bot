@@ -90,6 +90,7 @@ async def scanBestBuyURL(ctx, url, sleep):
         return
       else:
         print(f"Sold Out of {title}")
+        await ctx.send(f"\nSold Out of: {title}\n. Now Refreshing.")
         driver.refresh()
       await asyncio.sleep(sleep)
     except Exception as e:
