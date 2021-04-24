@@ -84,13 +84,16 @@ async def scanBestBuyURL(ctx, url, sleep):
       addButton = driver.find_element_by_class_name("add-to-cart-button")
       if not "btn-disabled" in addButton.get_attribute("class").split():
         await ctx.send(f"\nIN STOCK: \n{title}\nI will remove it from my tasks.")
+
         currentTasks.pop(url, None)
         print(f"removed {url} from tasks")
         driver.close()
         return
       else:
         print(f"Sold Out of {title}")
-        await ctx.send(f"\nSold Out of: {title}\n. Now Refreshing.")
+        channel = client.get_channel(835649354344955966)
+        await channel.send(f"\nSold Out of: {title}.\n Now Refreshing.")
+        # await ctx.send(f"\nSold Out of: {title}.\n Now Refreshing.")
         driver.refresh()
       await asyncio.sleep(sleep)
     except Exception as e:
