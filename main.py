@@ -83,7 +83,7 @@ async def scanBestBuyURL(ctx, url, sleep):
     try:
       addButton = driver.find_element_by_class_name("add-to-cart-button")
       if not "btn-disabled" in addButton.get_attribute("class").split():
-        await ctx.send(f"\nIN STOCK: \n{title}\nI will remove it from my tasks.")
+        await ctx.send(f"@everyone\nIN STOCK: \n{title}\nI will remove it from my tasks.")
 
         currentTasks.pop(url, None)
         print(f"removed {url} from tasks")
