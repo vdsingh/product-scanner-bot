@@ -9,6 +9,7 @@ import os
 
 # DISCORD_BOT_TOKEN = secret.DISCORD_BOT_TOKEN
 DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN', '')
+test_var = "hello"
 
 # CHROMEDRIVER_PATH = './chromedriver/90.0.4430.24/chromedriver'
 CHROMEDRIVER_PATH='/app/.chromedriver/bin/chromedriver'
